@@ -30,7 +30,11 @@ var detectNetwork = function(cardNumber) {
   	return 'Discover';
   } else if ((prefix_four === '5018' || prefix_four === '5020' || prefix_four === '5038' || prefix_four === '6304') && (length >= 12 && length <= 19)){
   	return 'Maestro';
-  }else {
+  } else if ((prefix_four === '5018' || prefix_four === '5020' || prefix_four === '5038' || prefix_four === '6304') && (length >= 16 && length <= 19)){
+    return 'China UnionPay';
+  } else if ((prefix_four === '5018' || prefix_four === '5020' || prefix_four === '5038' || prefix_four === '6304') && (length === 16 || length === 18 || length === 19)){
+    return 'Switch';
+  } else {
   	return 'not valid';
   }
 };
