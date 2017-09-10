@@ -16,12 +16,20 @@ var detectNetwork = function(cardNumber) {
   var length = cardNumber.length;
   var prefix = cardNumber.charAt(0) + cardNumber.charAt(1);
   var prefix_three = cardNumber.charAt(0) + cardNumber.charAt(1) + cardNumber.charAt(2);
-  var prefix_four = cardNumber.charAt(0) + cardNumber.charAt(1) + cardNumber.charAt(2) + cardNumber.charAt(3);
+  var prefix_four = cardNumber.charAt(0) + cardNumber.charAt(1) + cardNumber.charAt(2) + cardNumber.charAt(3); 
+  var prefix_six = cardNumber.charAt(0) + cardNumber.charAt(1) + cardNumber.charAt(2) + cardNumber.charAt(3) + cardNumber.charAt(4) + cardNumber.charAt(5);
+  var chinaUnionPayPrefix = [];
+  for (var i = 622126; i <= 622925; i++){
+    chinaUnionPayPrefix[i-622126] = i.toString();
+  }
+
 
   if ((prefix === '38' || prefix === '39') && length === 14){
   	return 'Diner\'s Club';
   } else if ((prefix === '34' || prefix === '37') && length === 15){
   	return 'American Express';
+  } else if ((['4903', '4905', '4911', '4936', '6333', '6759'].includes(prefix_four) || ['564182', '633110'].includes(prefix_six)) && (length === 16 || length === 18 || length === 19)){
+    return 'Switch';
   } else if (prefix.charAt(0) === '4' && (length === 13 || length === 16 || length === 19)){
   	return 'Visa';
   } else if ((prefix === '51' || prefix === '52' || prefix === '53' || prefix === '54' || prefix === '55') && length === 16){
@@ -30,10 +38,8 @@ var detectNetwork = function(cardNumber) {
   	return 'Discover';
   } else if ((prefix_four === '5018' || prefix_four === '5020' || prefix_four === '5038' || prefix_four === '6304') && (length >= 12 && length <= 19)){
   	return 'Maestro';
-  } else if ((prefix_four === '5018' || prefix_four === '5020' || prefix_four === '5038' || prefix_four === '6304') && (length >= 16 && length <= 19)){
+  } else if ((chinaUnionPayPrefix.includes(prefix_six) || ['624', '625', '626'].includes(prefix_three) || ['6282', '6283', '6284', '6285', '6286', '6287', '6288'].includes(prefix_four)) && (length >= 16 && length <= 19)){
     return 'China UnionPay';
-  } else if ((prefix_four === '5018' || prefix_four === '5020' || prefix_four === '5038' || prefix_four === '6304') && (length === 16 || length === 18 || length === 19)){
-    return 'Switch';
   } else {
   	return 'not valid';
   }

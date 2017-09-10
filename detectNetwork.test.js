@@ -214,8 +214,68 @@ describe('Maestro', function() {
 
 // });
 
-// describe('should support China UnionPay')
-// describe('should support Switch')
+describe('China UnionPay', function() {
+
+  var fakeNumbersByCount = {
+    10: '1234567890',
+    11: '12345678901',
+    12: '123456789012',
+    13: '1234567890123',
+    14: '12345678901234',
+    15: '123456789012345',
+    16: '1234567890123456',
+  }
+
+  for (var length = 16; length <= 19; length++){
+    (function(length) {
+      for (var prefix = 622126; prefix <= 622925; prefix++) {
+        (function(prefix) {
+          it('has a prefix of ' + prefix.toString() + ' and a length of ' + length, function(){
+            detectNetwork(prefix.toString()+fakeNumbersByCount[length-prefix.toString().length]).should.equal('China UnionPay');
+          });
+        })(prefix)
+      }
+      for (var prefix = 624; prefix <= 626; prefix++){
+        (function(prefix) {
+          it('has a prefix of ' + prefix.toString() + ' and a length of ' + length, function(){
+            detectNetwork(prefix.toString()+fakeNumbersByCount[length-prefix.toString().length]).should.equal('China UnionPay');
+          });
+        })(prefix)
+      }
+      for (var prefix = 6282; prefix <= 6288; prefix++){
+        (function(prefix) {
+          it('has a prefix of ' + prefix.toString() + ' and a length of ' + length, function(){
+            detectNetwork(prefix.toString()+fakeNumbersByCount[length-prefix.toString().length]).should.equal('China UnionPay');
+          });
+        })(prefix)
+      }
+    })(length)  
+  }
+});
+
+describe('Switch', function() {
+
+//['4903', '4905', '4911', '4936', '6333', '6759'].includes(prefix_four) || ['564182', '633110'].includes(prefix_six)) && (length === 16 || length === 18 || length === 19)){
+  var fakeNumbers = {
+    10: '1234567890',
+    11: '12345678901',
+    12: '123456789012',
+    13: '1234567890123',
+    14: '12345678901234',
+    15: '123456789012345',
+  }
+
+  var switchPrefix = ['4903', '4905', '4911', '4936', '564182', '633110', '6333', '6759'];
+
+  [16, 18, 19].forEach(function(length) {
+    switchPrefix.forEach(function(prefix){
+      it('has a prefix of ' + prefix + ' and a length of ' + length, function(){
+        // console.log(prefix+fakeNumbers[length-prefix.length])
+        detectNetwork(prefix+fakeNumbers[length-prefix.length]).should.equal('Switch');
+      });
+    });
+  });
+});
 
 //
 
